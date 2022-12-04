@@ -9,8 +9,6 @@ class Solution {
                    return false;
             }
         }
-        if(sentence.charAt(0)==sentence.charAt(sentence.length()-1))
-            return true;
-        return false;
+        return (sentence.charAt(0)==sentence.charAt(sentence.length()-1));
     }
 }
