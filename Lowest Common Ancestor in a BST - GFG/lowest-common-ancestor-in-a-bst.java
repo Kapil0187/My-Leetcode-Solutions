@@ -122,38 +122,17 @@ class BST
     //Function to find the lowest common ancestor in a BST. 
 	Node LCA(Node root, int n1, int n2)
 	{
-        // code here.    
-        ArrayList<Node> list1 = new ArrayList<>();
-        ArrayList<Node> list2 = new ArrayList<>();
-        findpath(root,n1,list1);
-        findpath(root,n2,list2);
-        int small = Math.min(list1.size(),list2.size());
-        Node ans = null;
-        for(int i=0;i<small;i++)
+        if(root==null||root.data==n1||root.data==n2)
         {
-            if(list1.get(i)==list2.get(i))
-            {
-                ans = list1.get(i);
-            }
-            else
-                break;
+            return root;
         }
-        return ans;
+        Node left = LCA(root.left,n1,n2);
+        Node right = LCA(root.right,n1,n2);
+        if(left==null)
+            return right;
+        else if(right==null)
+            return left;
+        else
+            return root;
     }
-    public static boolean findpath(Node root,int val,ArrayList<Node> list)
-    {
-        if(root==null)
-            return false;
-        if(root.data==val)
-        {
-            list.add(root);
-            return true;
-        }
-        list.add(root);
-        if(findpath(root.left,val,list)||findpath(root.right,val,list))
-            return true;
-        list.remove(list.size()-1);
-        return false;
-    }
-    
 }
