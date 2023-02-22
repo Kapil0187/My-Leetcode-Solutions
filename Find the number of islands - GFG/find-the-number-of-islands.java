@@ -60,26 +60,19 @@ class Solution {
     public static void bfs(char[][] grid,int vis[][],int r,int c)
     {
         vis[r][c] = 1;
-        Queue<Pair> q = new LinkedList<>();
-        q.add(new Pair(r,c));
-        while(!q.isEmpty())
-        {
-            int row = q.peek().row;
-            int col = q.peek().col;
-            q.poll();
+       
             for(int dr=-1;dr<=1;dr++)
             {
                 for(int dc=-1;dc<=1;dc++)
                 {
-                    int drow = row+dr;
-                    int dcol = col+dc;
+                    int drow = r+dr;
+                    int dcol = c+dc;
                     if(drow>=0 && dcol>=0 && drow<grid.length && dcol<grid[0].length && grid[drow][dcol]=='1' && vis[drow][dcol]==0)
                     {
-                        q.add(new Pair(drow,dcol));
-                        vis[drow][dcol]=1;
+                        bfs(grid,vis,drow,dcol);
                     }
                 }
             }
-        }
+    
     }
 }
