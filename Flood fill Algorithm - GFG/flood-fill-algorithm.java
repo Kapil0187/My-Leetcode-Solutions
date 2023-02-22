@@ -52,31 +52,31 @@ class Solution
         // Code here 
         int oldcolor = image[sr][sc];
         int vis[][] = new int[image.length][image[0].length];
-        bfs(image,vis,sr,sc,newColor,oldcolor);
+        bfs(image,vis,sr,sc,oldcolor,newColor);
         return image;
     }
-    public static void bfs(int image[][],int vis[][],int sr,int sc,int newcolor,int oldcolor)
+    public void bfs(int image[][],int vis[][],int sr,int sc,int oldcolor,int newColor)
     {
-        vis[sr][sc] = 1;
-        image[sr][sc] = newcolor;
+        vis[sr][sc] = newColor;
         Queue<Pair> q = new LinkedList<>();
         q.add(new Pair(sr,sc));
+        vis[sr][sc] = 1;
         int dr[] = new int[]{-1,1,0,0};
         int dc[] = new int[]{0,0,-1,1};
         while(!q.isEmpty())
         {
-            int r = q.peek().row;
-            int c = q.peek().col;
+            int row = q.peek().row;
+            int col = q.peek().col;
             q.poll();
+            image[row][col]= newColor;
             for(int i=0;i<4;i++)
             {
-                int row = r+dr[i];
-                int col = c+dc[i];
-                if(row<image.length && col<image[0].length && row>=0 && col>=0 && vis[row][col]==0 && image[row][col]==oldcolor)
+                int drow = row+dr[i];
+                int dcol = col+dc[i];
+                if(drow>=0 && dcol>=0 && drow<image.length && dcol<image[0].length && image[drow][dcol]==oldcolor && vis[drow][dcol]==0)
                 {
-                    q.offer(new Pair(row,col));
-                    vis[row][col] = 1;
-                    image[row][col] = newcolor;
+                    q.add(new Pair(drow,dcol));
+                    vis[drow][dcol]=1;
                 }
             }
         }
