@@ -86,8 +86,7 @@ class Solution {
                 if(drow<grid.length && dcol<grid[0].length && drow>=0 && dcol>=0 && grid[drow][dcol]==1 && path[drow][dcol]>(dist+1))
                 {
                     path[drow][dcol] = dist+1;
-                    if(drow==destination[0] && dcol==destination[1])
-                        return dist+1;
+                    
                     q.add(new Pair(dist+1,drow,dcol));
                 }
             }
