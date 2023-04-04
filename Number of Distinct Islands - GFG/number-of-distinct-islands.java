@@ -33,17 +33,8 @@ class GFG {
 
 
 // User function Template for Java
-class Pair{
-    int row;
-    int col;
-    Pair(int row,int col)
-    {
-        this.row = row;
-        this.col = col;
-    }
-}
-class Solution {
 
+class Solution {
     int countDistinctIslands(int[][] grid) {
         // Your Code here
         int r = grid.length;
@@ -54,29 +45,30 @@ class Solution {
         {
             for(int j=0;j<c;j++)
             {
-                if(grid[i][j]==1 && vis[i][j]==0)
+                if(vis[i][j]==0 && grid[i][j]==1)
                 {
-                    ArrayList<String> src = new ArrayList<>();
-                    dfs(grid,vis,set,src,i,j,i,j);
-                    set.add(src);
+                    ArrayList<String> list = new ArrayList<>();
+                    dfs(grid,vis,list,i,j,i,j);
+                    set.add(list);
                 }
             }
         }
         return set.size();
     }
-    public static void dfs(int grid[][],int vis[][],HashSet<ArrayList<String>> set,ArrayList<String> src,int row,int col,int row0,int col0)
+    public static void dfs(int[][] grid,int vis[][],ArrayList<String> list,int r,int c,int pr,int pc)
     {
-        vis[row][col] = 1;
-        src.add(""+(row-row0)+""+(col-col0));
+        String temp = ""+(r-pr)+""+(c-pc);
+        list.add(temp);
+        vis[r][c] = 1;
         int dr[] = new int[]{-1,1,0,0};
         int dc[] = new int[]{0,0,-1,1};
         for(int i=0;i<4;i++)
         {
-            int drow = row+dr[i];
-            int dcol = col+dc[i];
+            int drow = r+dr[i];
+            int dcol = c+dc[i];
             if(drow>=0 && dcol>=0 && drow<grid.length && dcol<grid[0].length && grid[drow][dcol]==1 && vis[drow][dcol]==0)
             {
-                dfs(grid,vis,set,src,drow,dcol,row0,col0);
+                dfs(grid,vis,list,drow,dcol,pr,pc);
             }
         }
     }
