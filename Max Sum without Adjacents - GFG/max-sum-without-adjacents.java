@@ -33,19 +33,20 @@ public class Main {
 class Solution {
     int findMaxSum(int arr[], int n) {
         // code here
+        if(n==1)
+            return arr[0];
         int dp[] = new int[n];
-        return find(arr,n-1,dp);
-    }
-    public static int find(int arr[],int n,int dp[])
-    {
-        if(n==0)
-            return arr[n];
-        if(n<0)
-            return 0;
-        if(dp[n]!=0)
-            return dp[n];
-        int taks = arr[n]+find(arr,n-2,dp);
-        int nottaks = 0 + find(arr,n-1,dp);
-        return dp[n] = Math.max(taks,nottaks);
+        dp[0] = arr[0];
+        for(int i=0;i<n;i++)
+        {
+            int takes = arr[i];
+            if(i>1)
+                takes += dp[i-2];
+            int nottakes = 0;
+            if(i>0)
+                nottakes = dp[i-1];
+            dp[i] = Math.max(takes,nottakes);
+        }
+        return dp[n-1];
     }
 }
