@@ -35,18 +35,21 @@ class Solution {
         // code here
         if(n==1)
             return arr[0];
-        int dp[] = new int[n];
-        dp[0] = arr[0];
+        int curr = 0;
+        int prev = arr[0];
+        int prev2 = 0;
         for(int i=0;i<n;i++)
         {
             int takes = arr[i];
             if(i>1)
-                takes += dp[i-2];
+                takes += prev2;
             int nottakes = 0;
             if(i>0)
-                nottakes = dp[i-1];
-            dp[i] = Math.max(takes,nottakes);
+                nottakes = prev;
+            curr = Math.max(takes,nottakes);
+            prev2 = prev;
+            prev = curr;
         }
-        return dp[n-1];
+        return prev;
     }
 }
