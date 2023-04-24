@@ -40,7 +40,26 @@ class Solution
         // Code here
         int n = nums.length;
         int dp[][] = new int[n][amount+1];
-        int ans=  Min(nums,amount,n-1,dp);
+    
+        for(int i=0;i<=amount;i++)
+        {
+            if(i%nums[0]==0)
+                dp[0][i] = i/nums[0];
+            else
+                dp[0][i] = (int)(1e9);
+        }
+        for(int i=1;i<n;i++)
+        {
+            for(int T=0;T<=amount;T++)
+            {
+                int nottake = dp[i-1][T];
+                int take = Integer.MAX_VALUE;
+                if(nums[i]<=T)
+                    take = 1+dp[i][T-nums[i]];
+                dp[i][T] = Math.min(nottake,take);
+            }
+        }
+        int ans=  dp[n-1][amount];
         if(ans>=(int)1e9)
             return -1;
         return ans;
