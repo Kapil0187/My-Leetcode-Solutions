@@ -28,7 +28,25 @@ class Solution {
     public long count(int coins[], int N, int sum) {
         // code here.
         long dp[][] = new long[N][sum+1];
-        return find(coins,N-1,sum,dp);
+        for(int t=0;t<=sum;t++)
+        {
+            if(t%coins[0]==0)
+                dp[0][t] = 1L;
+            else 
+                dp[0][t] = 0L;
+        }
+        for(int i=1;i<N;i++)
+        {
+            for(int t=0;t<=sum;t++)
+            {
+                long nottake = dp[i-1][t];
+                long take = 0;
+                if(coins[i]<=t)
+                    take = dp[i][t-coins[i]];
+                dp[i][t] = nottake+take;
+            }
+        }
+        return dp[N-1][sum];
     }
     public long find(int coins[],int ind,int sum,long[][] dp)
     {
