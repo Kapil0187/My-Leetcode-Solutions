@@ -119,20 +119,18 @@ class Solution {
     // Function to return the diameter of a Binary Tree.
     int diameter(Node root) {
         // Your code here
-        if(root==null)
-            return 0;
-        int arr[] = new int[1];
-        find(root,arr);
-        return arr[0];
+        int max[] = new int[1];
+        function(root,max);
+        return max[0];
     }
-    public int find(Node root,int arr[])
+    public static int function(Node root,int max[])
     {
         if(root==null)
             return 0;
-        int left = find(root.left,arr);
-        int right = find(root.right,arr);
-        if((1+left+right)>arr[0])
-            arr[0] = left+right+1;
+        int left = function(root.left,max);
+        int right = function(root.right,max);
+        if(max[0]<(1+left+right))
+            max[0] = 1+left+right;
         return 1+Math.max(left,right);
     }
 }
