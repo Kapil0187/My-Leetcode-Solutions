@@ -32,12 +32,12 @@ class GFG {
 // } Driver Code Ends
 
 class Pair{
-    int first;
-    int second;
-    Pair(int first,int second)
+    int node;
+    int parent;
+    Pair(int node,int parent)
     {
-        this.first = first;
-        this.second = second;
+        this.node = node;
+        this.parent = parent;
     }
 }
 class Solution {
@@ -49,35 +49,59 @@ class Solution {
         {
             if(vis[i]==0)
             {
-                if(bfs(adj,vis,i))
-                {
+                if(dfs(adj,vis,i,-1))
                     return true;
-                }
             }
         }
         return false;
+        
     }
-    public boolean bfs(ArrayList<ArrayList<Integer>> adj,int vis[],int src)
+    public boolean dfs(ArrayList<ArrayList<Integer>> adj,int[] vis,int ind,int parent)
     {
-        vis[src] = 1;
+        
         Queue<Pair> q = new LinkedList<>();
-        q.add(new Pair(src,-1));
+        q.add(new Pair(ind,parent));
         while(!q.isEmpty())
         {
-            int node = q.peek().first;
-            int parant = q.peek().second;
-            q.poll();
+            int node = q.peek().node;
+            int par = q.poll().parent;
+            vis[node] = 1;
             for(int adjnode : adj.get(node))
             {
                 if(vis[adjnode]==0)
                 {
-                    vis[adjnode]=1;
                     q.add(new Pair(adjnode,node));
                 }
-                else if(parant!=adjnode)
+                else if(adjnode!=par)
                     return true;
             }
         }
         return false;
     }
+} 
+/*
+class Solution {
+    // Function to detect cycle in an undirected graph.
+    public boolean isCycle(int V, ArrayList<ArrayList<Integer>> adj) {
+        // Code here
+        
+    }
+    public boolean dfs(int[] vis,ArrayList<ArrayList<Integer>> adj,int ind,int parent)
+    {
+        vis[ind] = 1;
+        for(int it : adj.get(ind))
+        {
+            if(vis[it]==0)
+            {
+                if(dfs(vis,adj,it,ind))
+                    return true;
+            }
+            else if(parent!=it)
+                return true;
+        }
+        return false;
+    }
 }
+
+*/
+
