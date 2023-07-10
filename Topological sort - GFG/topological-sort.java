@@ -15,7 +15,7 @@ class Main {
             int edg = Integer.parseInt(st[0]);
             int nov = Integer.parseInt(st[1]);
 
-            for (int i = 0; i < nov + 1; i++)
+            for (int i = 0; i < nov; i++)
                 list.add(i, new ArrayList<Integer>());
 
             int p = 0;
@@ -64,34 +64,33 @@ class Solution
     static int[] topoSort(int V, ArrayList<ArrayList<Integer>> adj) 
     {
         // add your code here
+        Stack<Integer> stack = new Stack<>();
+        int vis[] = new int[V];
+        for(int i=0;i<adj.size();i++)
+        {
+            if(vis[i]==0)
+            {
+                dfs(adj,vis,i,stack);
+            }
+        }
         int arr[] = new int[V];
-        for(int i=0;i<V;i++)
-        {
-            for(int node : adj.get(i))
-            {
-                arr[node]++;
-            }
-        }
-        Queue<Integer> q = new LinkedList<>();
-        for(int i=0;i<V;i++)
-        {
-            if(arr[i]==0)
-                q.offer(i);
-        }
-        int ans[] = new int[V];
         int i=0;
-        while(!q.isEmpty())
+        while(!stack.isEmpty())
         {
-            int val = q.poll();
-            ans[i++] = val;
-            for(int node : adj.get(val))
-            {
-                 arr[node]--;
-                 if(arr[node]==0)
-                    q.offer(node);
-            }
-            
+            arr[i++] = stack.pop(); 
         }
-        return ans;
+        return arr;
+    }
+    public static void dfs(ArrayList<ArrayList<Integer>> adj,int vis[],int ind,Stack<Integer> stack)
+    {
+        vis[ind] = 1;
+        for(int adjnode : adj.get(ind))
+        {
+            if(vis[adjnode]==0)
+            {
+                dfs(adj,vis,adjnode,stack);
+            }
+        }
+        stack.add(ind);
     }
 }
