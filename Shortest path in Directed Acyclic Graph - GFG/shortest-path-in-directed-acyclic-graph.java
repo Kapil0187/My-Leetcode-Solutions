@@ -27,74 +27,56 @@ class Main {
 }
 // } Driver Code Ends
 
+
+//User function Template for Java
 class Pair{
-    int second;
-    int waight;
-    Pair(int second,int waight)
+    int node;
+    int weight;
+    Pair(int node,int weight)
     {
-        this.second = second;
-        this.waight = waight;
+        this.node = node;
+        this.weight = weight;
     }
 }
-//User function Template for Java
 class Solution {
-    public static void toposort(int vis[],ArrayList<ArrayList<Pair>> adj,Stack<Integer> stack,int node)
-    {
-        vis[node] = 1;
-        for(Pair obj:adj.get(node))
-        {
-            int v = obj.second;
-            if(vis[v]==0)
-            {
-                toposort(vis,adj,stack,v);
-            }
-        }
-        stack.push(node);
-    }
+
 	public int[] shortestPath(int N,int M, int[][] edges) {
 		//Code here
 		ArrayList<ArrayList<Pair>> adj = new ArrayList<>();
 		for(int i=0;i<N;i++)
-		{
-		    adj.add(new ArrayList<Pair>());
-		}
-		for(int i=0;i<M;i++)
+		    adj.add(new ArrayList<>());
+		for(int i=0;i<edges.length;i++)
 		{
 		    adj.get(edges[i][0]).add(new Pair(edges[i][1],edges[i][2]));
 		}
-		int vis[] = new int[N];
-		Stack<Integer> stack = new Stack<>();
-		for(int i=0;i<N;i++)
-		{
-		    if(vis[i]==0)
-		    {
-		        toposort(vis,adj,stack,i);
-		    }
-		}
-		int dist[] = new int[N];
-		for(int i=0;i<N;i++)
-		{
-		    dist[i] = (int)1e9;
-		}
-		dist[0] = 0;
-		while(!stack.isEmpty())
-		{
-		    int node = stack.pop();
-		    for(Pair obj:adj.get(node))
-		    {
-		        int dis = obj.waight;
-		        int n = obj.second;
-		        if(dist[node]+dis<dist[n])
-		        {
-		            dist[n] = dist[node]+dis;
-		        }
-		    }
-		}
-		for(int i=0;i<N;i++)
-		{
-		    if(dist[i]==1e9)
-		        dist[i] = -1;
-		}
-		return dist;
+		
+		int dis[] = new int[N];
+	    for(int i=0;i<N;i++)
+	        dis[i] = (int)1e9;
+	    PriorityQueue<Pair> q = new PriorityQueue<>((x,y)->x.weight-y.weight);
+	    q.add(new Pair(0,0));
+	    dis[0] = 0;
+	    while(!q.isEmpty())
+	    {
+	        int node = q.peek().node;
+	        int w = q.peek().weight;
+	        q.poll();
+	        for(Pair adjnode : adj.get(node))
+	        {
+	            if(dis[adjnode.node]>w+adjnode.weight)
+	            {
+	                q.add(new Pair(adjnode.node,w+adjnode.weight));
+	                dis[adjnode.node] = w+adjnode.weight;
+	            }
+	        }
+	    }
+	    for(int i=0;i<N;i++)
+	    {
+	        if(dis[i]==(int)1e9)
+	            dis[i] = -1;
+	    }
+	    return dis;
 	}
 }
+
+
