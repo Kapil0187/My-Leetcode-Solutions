@@ -33,40 +33,44 @@ class GFG {
 
 // User function Template for Java
 class Pair{
+    int multi;
     int step;
-    int mult;
-    Pair(int step,int mult)
+    Pair(int multi,int step)
     {
+        this.multi = multi;
         this.step = step;
-        this.mult = mult;
     }
 }
 class Solution {
     int minimumMultiplications(int[] arr, int start, int end) {
-        int mod = 100000;
         Queue<Pair> q = new LinkedList<>();
-        q.add(new Pair(0,start));
-        int dist[] = new int[100000];
-        for(int i=0;i<100000;i++)
-            dist[i] = (int)1e9;
-        dist[start] = 0;
+        q.add(new Pair(start,0));
+        int mod = (int)1e5;
+        int dis[] = new int[mod];
+        for(int i=0;i<mod;i++)
+        {
+            dis[i] = (int)1e9;
+        }
+        dis[start] = 0;
         while(!q.isEmpty())
         {
-            int step = q.peek().step;
-            int mult = q.peek().mult;
+            int multi = q.peek().multi;
+            int step  = q.peek().step;
             q.poll();
             for(int i=0;i<arr.length;i++)
             {
-                int newmult = (mult*arr[i])%mod;
-                if(step+1<dist[newmult])
+                int newmulti = ((arr[i]%mod)*(multi%mod))%mod;
+                if(step+1<dis[newmulti])
                 {
-                    dist[newmult] = step+1;
-                    if(newmult == end)
+                    if(newmulti==end)
                         return step+1;
-                    q.add(new Pair(step+1,newmult));
+                    dis[newmulti] = step+1;
+                    q.add(new Pair(newmulti,step+1));
                 }
             }
         }
-        return -1;
+        if(dis[end]==(int)1e9)
+            return -1;
+        return dis[end];
     }
 }
