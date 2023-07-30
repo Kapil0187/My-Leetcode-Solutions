@@ -53,37 +53,38 @@ class DriverClass {
 class Solution {
     static int[] bellman_ford(int V, ArrayList<ArrayList<Integer>> edges, int S) {
         // Write your code here
-        int dist[] = new int[V];
-        for(int i=0;i<V;i++)
+      int dis[] = new int[V];
+      for(int i=0;i<V;i++)
+        dis[i] = (int)1e8;
+      dis[S] = 0;
+      for(int i=0;i<V-1;i++)
+      {
+          for(ArrayList<Integer> list : edges)
+          {
+              int u = list.get(0);
+              int v = list.get(1);
+              int wt = list.get(2);
+              if(dis[u]!=(int)1e9 && dis[u]+wt<dis[v])
+              {
+                  dis[v] = dis[u]+wt;
+              }
+          }
+      }
+        for(ArrayList<Integer> list : edges)
         {
-            dist[i] = (int)1e8;
+              int u = list.get(0);
+              int v = list.get(1);
+              int wt = list.get(2);
+              if(dis[u]!=(int)1e9 && dis[u]+wt<dis[v])
+              {
+                  return new int[]{-1};
+              }
         }
-        dist[S] = 0;
-        for(int i=0;i<V-1;i++)
-        {
-            for(ArrayList<Integer> list :edges)
-            {
-                int u = list.get(0);
-                int v = list.get(1);
-                int wt = list.get(2);
-                if(dist[u]!=1e9 && dist[u]+wt<dist[v])
-                {
-                    dist[v] = dist[u]+wt;
-                }
-            }
-        }
-        for(ArrayList<Integer> list:edges)
-        {
-            int u = list.get(0);
-            int v = list.get(1);
-            int wt = list.get(2);
-            if(dist[u]!=1e9 && dist[u]+wt<dist[v])
-            {
-                int temp[] = new int[1];
-                temp[0] = -1;
-                return temp;
-            }
-        }
-        return dist;
+        return dis;
     }
 }
+
+
+
+
+
